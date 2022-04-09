@@ -18,6 +18,13 @@ trait HasCRUD{
         return $this->saveMethod();
     }
 
+    protected function update_oneMethod($attribute,$value,$id){
+        $this->setSql("UPDATE ".$this->getTableName()." SET $attribute = $value, ".$this->getAttributeName($this->updatedAt)."=Now()");
+        $this->setWhere("AND", $this->getAttributeName($this->primaryKey)." = ?");
+        $this->addValue($this->primaryKey, $id);
+        return $this->executeQuery();
+    }
+
     protected function deleteMethod($id = null){
 
         $object = $this;
